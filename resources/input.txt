@@ -1,4 +1,4 @@
-tables: A-8 B-8 C-7 D-7 
+tables: A-8 B-8 C-7 D-7
 Thornton, party of 3 
 Garcia, party of 2 
 Owens, party of 6 dislikes Thornton, Taylor
