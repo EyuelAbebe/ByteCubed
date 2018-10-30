@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Main {
 
     private static String inputFile = "resources/input.txt";
-    private static Map tables = new HashMap<String, Long>();
+    private static List<Map> tables = new ArrayList<>();
     private static List<Map> guestInfos = new ArrayList();
 
     /**
@@ -23,7 +23,17 @@ public class Main {
         if (guest.toLowerCase().contains("tables")){
             Arrays.stream(guest.split(" "))
                     .filter(s -> s.contains("-"))
-                    .forEach(s ->  tables.put(s.split("-")[0], Long.valueOf(s.split("-")[1])));
+                    .forEach(s ->  {
+                        Map table = new HashMap<String, Object>();
+                        String[] info = s.split("-");
+                        int size = Integer.valueOf(info[1]);
+                        String[] seating = new String[size];
+
+                        table.put("name" , info[0]);
+                        table.put("spaceAvailable", size);
+                        table.put("seating", seating);
+                        tables.add(table);
+                    });
             return;
         }
 
@@ -50,9 +60,11 @@ public class Main {
         }catch (IOException e){
             e.printStackTrace();
         }
-        System.out.println("Tables : " + Collections.singletonList(tables));
+
+        tables.stream()
+                .forEach(table -> System.out.println("Table : " + table.get("name") + ", info : " + Collections.singletonList(table)));
         guestInfos.stream()
-                .forEach(info -> System.out.println("Guest " + info.get("name")  + " Infos : " + Collections.singletonList(info)));
+                .forEach(info -> System.out.println("Guest " + info.get("name")  + ", info : " + Collections.singletonList(info)));
 
 
     }
