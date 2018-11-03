@@ -57,14 +57,17 @@ public class Main {
             Files.lines(Paths.get(inputFile))
                     .forEach(line -> extractInfo(line));
 
+            SeatMe seatMe = new SeatMe(tables);
+
+
         }catch (IOException e){
             e.printStackTrace();
         }
 
         tables.stream()
-                .forEach(table -> System.out.println("Table : " + table.get("name") + ", info : " + Collections.singletonList(table)));
+                .forEach(table -> System.out.println("Table : " + table.get("name") + ", Size : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
         guestInfos.stream()
-                .forEach(info -> System.out.println("Guest " + info.get("name")  + ", info : " + Collections.singletonList(info)));
+                .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " + info.get("size")  + ", Dislikes : " + info.get("dislikes")));
 
 
     }
