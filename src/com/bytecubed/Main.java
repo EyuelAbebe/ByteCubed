@@ -27,11 +27,13 @@ public class Main {
                         Map table = new HashMap<String, Object>();
                         String[] info = s.split("-");
                         int size = Integer.valueOf(info[1]);
-                        String[] seating = new String[size];
+                        List<String> seating = new ArrayList<>();
 
-                        table.put("name" , info[0]);
+                        table.put("name" , info[0].toString().trim().toUpperCase());
+                        table.put("size", size);
                         table.put("spaceAvailable", size);
                         table.put("seating", seating);
+
                         tables.add(table);
                     });
             return;
@@ -40,12 +42,12 @@ public class Main {
         HashMap<String, Object> info = new HashMap();
         String[] line = guest.split(",");
         info.put("name", line[0]);
-        info.put("size", Long.valueOf(line[1].replaceAll("[^0-9]","")));
+        info.put("size", Integer.valueOf(line[1].replaceAll("[^0-9]","")));
 
         if (guest.contains("dislikes")){
-            info.put("dislikes", Arrays.stream(
-                    guest.split("dislikes")[1]
-                            .split(",")).collect(Collectors.toList()));
+            info.put("dislikes", Arrays.stream(guest.split("dislikes")[1].split(","))
+                    .map(s -> s.toString().trim().toUpperCase())
+                    .collect(Collectors.toList()));
         }
 
         guestInfos.add(info);
@@ -57,7 +59,8 @@ public class Main {
             Files.lines(Paths.get(inputFile))
                     .forEach(line -> extractInfo(line));
 
-            SeatMe seatMe = new SeatMe(tables);
+            WeddingSeating seatingArrangment = new WeddingSeating(tables, guestInfos);
+            seatingArrangment.seatingPossible();
 
 
         }catch (IOException e){
@@ -65,9 +68,11 @@ public class Main {
         }
 
         tables.stream()
-                .forEach(table -> System.out.println("Table : " + table.get("name") + ", Size : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
+                .forEach(table -> System.out.println("Table : " + table.get("name") + ", Size : " + table.get("size") +
+                        ", SpaceAvailable : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
         guestInfos.stream()
-                .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " + info.get("size")  + ", Dislikes : " + info.get("dislikes")));
+                .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
+                        info.get("size")  + ", Dislikes : " + info.get("dislikes")));
 
 
     }
