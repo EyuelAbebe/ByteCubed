@@ -13,6 +13,11 @@ public class WeddingSeating {
         this.guestInfos = guestInfos;
     }
 
+    /**
+     *  Determines if its is possible to sit guest on tables.
+     *
+     * @return boolean.
+     */
     public boolean seatingPossible(){
         for(Map guest: guestInfos){
             if (!this.seatGuest(guest)){return false;}
@@ -21,6 +26,12 @@ public class WeddingSeating {
         return true;
     }
 
+    /**
+     *  Sits a guest on one of the tables available, then updates table info or returns false.
+     *
+     * @param guest guest info.
+     * @return boolean.
+     */
     public boolean seatGuest(Map guest){
 
         for(Map table: tables){
@@ -29,7 +40,7 @@ public class WeddingSeating {
             int guestSize = (int) guest.get("size");
             List<String> seating = (List) table.get("seating");
 
-            if (canSeat(guest, spaceAvailable, guestSize, seating)){
+            if (canSeat(guest, spaceAvailable, seating)){
                 seating.add(guest.get("name").toString().trim().toUpperCase());
                 table.replace("spaceAvailable", spaceAvailable - guestSize);
                 return true;
@@ -39,9 +50,17 @@ public class WeddingSeating {
         return false;
     }
 
-    public boolean canSeat(Map guestInfo, int tableSizeAvailable, int guestSize, List seating){
+    /**
+     *  Takes in guest and table info and determines of guest(s) can seat.
+     *
+     * @param guestInfo guest information.
+     * @param tableSizeAvailable space available on table.
+     * @param seating list of people sitting on table.
+     * @return boolean.
+     */
+    public boolean canSeat(Map guestInfo, int tableSizeAvailable, List<String> seating){
 
-        if ( tableSizeAvailable <  guestSize ){
+        if ( tableSizeAvailable <  (int) guestInfo.get("size") ){
             return false;
         }
 
