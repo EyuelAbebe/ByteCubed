@@ -20,7 +20,7 @@ public class Main {
      */
     private static void extractInfo(String guest){
 
-        if (guest.toLowerCase().contains("tables")){
+        if (guest.contains("tables")){
             Arrays.stream(guest.split(" "))
                     .filter(s -> s.contains("-"))
                     .forEach(s ->  {
@@ -57,23 +57,29 @@ public class Main {
 
         try {
             Files.lines(Paths.get(inputFile))
-                    .forEach(line -> extractInfo(line));
+                    .forEach(line -> extractInfo(line.toLowerCase()));
+
+            System.out.println("GUEST INFORMATION: ");
+            guestInfos.stream()
+                    .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
+                            info.get("size")  + ", Dislikes : " + info.get("dislikes")));
+
 
             WeddingSeating seatingArrangment = new WeddingSeating(tables, guestInfos);
-            seatingArrangment.seatingPossible();
+
+            if (seatingArrangment.seatingPossible()){
+                System.out.println("TABLE ARRANGEMENT: ");
+                tables.stream()
+                        .forEach(table -> System.out.println("Table : " + table.get("name") + ", Size : " + table.get("size") +
+                                ", SpaceAvailable : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
+            }else{
+                System.out.println("POSSIBLE TABLE ARRANGEMENT NOT FOUND");
+            };
 
 
         }catch (IOException e){
             e.printStackTrace();
+            System.out.println("Error reading Input file. Please use input.txt in resources folder.");
         }
-
-        tables.stream()
-                .forEach(table -> System.out.println("Table : " + table.get("name") + ", Size : " + table.get("size") +
-                        ", SpaceAvailable : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
-        guestInfos.stream()
-                .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
-                        info.get("size")  + ", Dislikes : " + info.get("dislikes")));
-
-
     }
 }
