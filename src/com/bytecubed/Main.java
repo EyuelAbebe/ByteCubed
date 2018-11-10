@@ -64,13 +64,14 @@ public class Main {
                     .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
                             info.get("size")  + ", Dislikes : " + info.get("dislikes")));
 
+            System.out.println("\n");
 
             WeddingSeating seatingArrangment = new WeddingSeating(tables, guestInfos);
 
             if (seatingArrangment.seatingPossible()){
                 System.out.println("TABLE ARRANGEMENT: ");
                 tables.stream()
-                        .forEach(table -> System.out.println("Table : " + table.get("name") + ", Size : " + table.get("size") +
+                        .forEach(table -> System.out.println( "Table : " + table.get("name") + ", Size : " + table.get("size") +
                                 ", SpaceAvailable : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
             }else{
                 System.out.println("POSSIBLE TABLE ARRANGEMENT NOT FOUND");
