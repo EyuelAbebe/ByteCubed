@@ -1,0 +1,7 @@
+tables: A-4 B-7 C-3 D-10 E-8
+Thornton, party of 3 dislikes Garcia
+Garcia, party of 3
+Owens, party of 4
+Daniel, party of 5 dislikes Garcia, Owens
+Phebe, party of 2 dislikes Owens
+Jane, party of 10
