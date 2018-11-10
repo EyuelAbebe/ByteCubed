@@ -1,4 +1,4 @@
-# ByteCubed
+# WeddingSeating Challenge
 
 
 You work for a wedding planner and are in charge of assigning seating for guests. You are given a list of tables (defined by table name - max capacity). You are also given a list of guest parties, along with the number in that party. Also noted is if a party dislikes one or more other parties.
@@ -11,17 +11,18 @@ You work for a wedding planner and are in charge of assigning seating for guests
 ## Approach
 
 - We loop through each guest and see if we can __seatGuest__.
-- We call function __canSeat__, which determines if a guest can seat on given table. Checks if there is space or guest they dislike.
+- We call function __canSeat__, which determines if a guest can seat on given table. Checks if there is space or guest they dislike. We also verify
+if the sitting guests dislike the incoming guest.
 If they can seat, table information is updated accordingly.
-- If guest can not seat at given table, we check if we __canMove__ already sitting guests to a different table. If we care able to __move__
-the sitting guests, both the source and destination table information are updated accordingly.
+- If guest can not seat at given table and at any other tables, we check if we __canMove__ already sitting guests to a different table. If we are able to __move__
+some of the sitting guests and make space, both the source and destination table information are updated accordingly.
 - If we are unable to seat a guest, we determine sitting arrangement is not possible.
 
 ## Complexity
-At worst this algorithm is __O(n^3)__, where _n_ is size of table. We can improve the running time by using appropriate
+At worst this algorithm is __O(n*m)__, where _n_ is size of table and _m_ is number of guests available (Since _m > n_ its realistically _O(m^2)_. We can improve the running time by using appropriate
 data-structures to reduce the iterations of both tables and guests. 
 
-We can use a Stack of possble destination tables and
+We can use a Stack of possible destination tables and
 possible(or better option) of guests to move. We can populate stack of possible tables, in each iteration, by size of spaceAvailable
 that is close to the moving guests party size.
 
