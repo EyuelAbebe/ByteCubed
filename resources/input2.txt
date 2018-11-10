@@ -1,0 +1,4 @@
+tables: A-4 B-4 C-3
+Thornton, party of 3 dislikes Garcia
+Garcia, party of 3 dislikes Owens
+Owens, party of 4
