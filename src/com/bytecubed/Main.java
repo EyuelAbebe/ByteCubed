@@ -63,7 +63,7 @@ public class Main {
             Files.lines(Paths.get(givenSetup))
                     .forEach(line -> extractInfo(line.toLowerCase(), tables, guestInfos));
 
-            System.out.println("-------> ARRANGEMENT");
+            System.out.println("[==================> ARRANGEMENT: " + givenSetup.toLowerCase() + " <==================]");
             System.out.println("GUEST INFORMATION: ");
             guestInfos.stream()
                     .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
@@ -81,17 +81,18 @@ public class Main {
             }else{
                 System.out.println("POSSIBLE TABLE ARRANGEMENT NOT FOUND");
             };
-
-            System.out.println("\n\n");
-
         }catch (IOException e){
             e.printStackTrace();
             System.out.println("Error reading Input file. Please use input.txt in resources folder.");
         }
+        System.out.println("[=========================================================================]");
+        System.out.println("\n");
     }
 
     public static void main(String[] args) {
         arrangeSeates("resources/input.txt");
         arrangeSeates("resources/input2.txt");
+        arrangeSeates("resources/input3.txt");
+        arrangeSeates("resources/input4.txt");
     }
 }
