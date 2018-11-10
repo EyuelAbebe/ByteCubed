@@ -46,19 +46,25 @@ public class WeddingSeating {
                 seating.add(guest.get("name").toString().trim().toUpperCase());
                 table.replace("spaceAvailable", spaceAvailable - guestSize);
                 return true;
-            }else{
-                for (String sittingGuest: seating){
-                    Map sittngGuestInfo = guestInfos.stream()
-                            .filter( guestInfo -> guestInfo.get("name").toString().trim().equalsIgnoreCase(sittingGuest))
-                            .findAny()
-                            .orElse(null);
+            }
+        }
+
+        for(Map table: tables){
+            int guestSize = (int) guest.get("size");
+            List<String> seating = (List) table.get("seating");
+
+            for (String sittingGuest: seating){
+                Map sittngGuestInfo = guestInfos.stream()
+                        .filter( guestInfo -> guestInfo.get("name").toString().trim().equalsIgnoreCase(sittingGuest))
+                        .findAny()
+                        .orElse(null);
 
 
-                    if (canMove((Map)sittngGuestInfo, table)){
-                       seating.add(guest.get("name").toString().trim().toUpperCase());
-                       table.replace("spaceAvailable", spaceAvailable - guestSize);
-                       return true;
-                    }
+                if (canMove(sittngGuestInfo, table)){
+                    seating.add(guest.get("name").toString().trim().toUpperCase());
+                    int spaceAvailable = (int) table.get("spaceAvailable");
+                    table.replace("spaceAvailable", spaceAvailable - guestSize);
+                    return true;
                 }
             }
         }
