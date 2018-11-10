@@ -1,7 +1,9 @@
 package com.bytecubed;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class WeddingSeating {
 
@@ -46,9 +48,11 @@ public class WeddingSeating {
                 return true;
             }else{
                 for (String sittingGuest: seating){
-                    Object sittngGuestInfo =  guestInfos.stream()
+                    Map sittngGuestInfo = guestInfos.stream()
                             .filter( guestInfo -> guestInfo.get("name").toString().trim().equalsIgnoreCase(sittingGuest))
-                            .findFirst();
+                            .findAny()
+                            .orElse(null);
+
 
                     if (canMove((Map)sittngGuestInfo, table)){
                        seating.add(guest.get("name").toString().trim().toUpperCase());

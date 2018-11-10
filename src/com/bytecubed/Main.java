@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    private static String inputFile = "resources/input.txt";
+    private static String inputFile = "resources/input2.txt";
     private static List<Map> tables = new ArrayList<>();
     private static List<Map> guestInfos = new ArrayList();
 
