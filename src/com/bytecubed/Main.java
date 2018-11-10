@@ -8,17 +8,13 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    private static String inputFile = "resources/input2.txt";
-    private static List<Map> tables = new ArrayList<>();
-    private static List<Map> guestInfos = new ArrayList();
-
     /**
      * Given a line from input file, extracts either table or guest info. Saves table under tables variable or
      * appends guest info to guestsInfos
      *
      * @param guest line string from input file.
      */
-    private static void extractInfo(String guest){
+    private static void extractInfo(String guest, List tables, List guestInfos){
 
         if (guest.contains("tables")){
             Arrays.stream(guest.split(" "))
@@ -53,12 +49,21 @@ public class Main {
         guestInfos.add(info);
     }
 
-    public static void main(String[] args) {
+    /**
+     *  Given a file containing tables and guest list, prints possible arrangements.
+     *
+     * @param givenSetup
+     */
+    public static void arrangeSeates(String givenSetup){
+
+        List<Map> tables = new ArrayList<>();
+        List<Map> guestInfos = new ArrayList();
 
         try {
-            Files.lines(Paths.get(inputFile))
-                    .forEach(line -> extractInfo(line.toLowerCase()));
+            Files.lines(Paths.get(givenSetup))
+                    .forEach(line -> extractInfo(line.toLowerCase(), tables, guestInfos));
 
+            System.out.println("-------> ARRANGEMENT");
             System.out.println("GUEST INFORMATION: ");
             guestInfos.stream()
                     .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
@@ -77,10 +82,16 @@ public class Main {
                 System.out.println("POSSIBLE TABLE ARRANGEMENT NOT FOUND");
             };
 
+            System.out.println("\n\n");
 
         }catch (IOException e){
             e.printStackTrace();
             System.out.println("Error reading Input file. Please use input.txt in resources folder.");
         }
+    }
+
+    public static void main(String[] args) {
+        arrangeSeates("resources/input.txt");
+        arrangeSeates("resources/input2.txt");
     }
 }
