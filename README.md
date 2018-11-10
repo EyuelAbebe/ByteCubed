@@ -30,13 +30,14 @@ that is close to the moving guests party size.
 
 The input file __input.txt__ must follow a strinct format.
 
-1. First line must start with __tables:__ and follow with table name and size seperated by __-__ Every other table seperated by space. All the tables must be 
-listed on the first line.
-   
-    eg: __tables: A-8 B-5 C-9 H-99__
-2. Each following lines contains information about single guest. Each line must _name_ followed by _,_ the space _party of_ and a _number/size of party._ If there are dislikes after write _dislikes_ then list of names sperated by _,_
+1. First line must start with __tables:__ and follow with table name and size seperated by __-__ .
+Every table info is seperated by space. All tables info must be listed on the first line.
 
-    eg: __Owens, party of 6 dislikes Thornton, Taylor__
+        eg: tables: A-8 B-5 C-9 H-99
+2. Every following line contains information about a single guest. Each line must start with gusest __name__ followed by __,__ then space
+ followed by __party of__ and a __number/size__ of party. If there are dislikes, _space_ write _dislikes_ another _space_ then list of _names_ sperated by __,__
+
+        eg: Owens, party of 6 dislikes Thornton, Taylor
 
 *__EXAMPLE of input.txt__*
 
@@ -49,3 +50,4 @@ listed on the first line.
      Reese, party of 7
 
 
+Look at given 4 input files under __resources__ folder.
