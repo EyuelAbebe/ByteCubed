@@ -13,6 +13,8 @@ public class Main {
      * appends guest info to guestsInfos
      *
      * @param guest line string from input file.
+     * @param tables list of all tables
+     * @param guestInfos list of all guest information
      */
     private static void extractInfo(String guest, List tables, List guestInfos){
 
@@ -25,7 +27,7 @@ public class Main {
                         int size = Integer.valueOf(info[1]);
                         List<String> seating = new ArrayList<>();
 
-                        table.put("name" , info[0].toString().trim().toUpperCase());
+                        table.put("name" , info[0].trim().toUpperCase());
                         table.put("size", size);
                         table.put("spaceAvailable", size);
                         table.put("seating", seating);
@@ -42,7 +44,7 @@ public class Main {
 
         if (guest.contains("dislikes")){
             info.put("dislikes", Arrays.stream(guest.split("dislikes")[1].split(","))
-                    .map(s -> s.toString().trim().toUpperCase())
+                    .map(s -> s.trim().toUpperCase())
                     .collect(Collectors.toList()));
         }
 
@@ -52,9 +54,9 @@ public class Main {
     /**
      *  Given a file containing tables and guest list, prints possible arrangements.
      *
-     * @param givenSetup
+     * @param givenSetup input file location.
      */
-    public static void arrangeSeates(String givenSetup){
+    private static void arrangeSeates(String givenSetup){
 
         List<Map> tables = new ArrayList<>();
         List<Map> guestInfos = new ArrayList();
@@ -65,8 +67,7 @@ public class Main {
 
             System.out.println("[==================> ARRANGEMENT: " + givenSetup.toLowerCase() + " <==================]");
             System.out.println("GUEST INFORMATION: ");
-            guestInfos.stream()
-                    .forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
+            guestInfos.forEach(info -> System.out.println("Guest name: " + info.get("name") + ", Party size: " +
                             info.get("size")  + ", Dislikes : " + info.get("dislikes")));
 
             System.out.println("\n");
@@ -75,12 +76,11 @@ public class Main {
 
             if (seatingArrangment.seatingPossible()){
                 System.out.println("TABLE ARRANGEMENT: ");
-                tables.stream()
-                        .forEach(table -> System.out.println( "Table : " + table.get("name") + ", Size : " + table.get("size") +
+                tables.forEach(table -> System.out.println( "Table : " + table.get("name") + ", Size : " + table.get("size") +
                                 ", SpaceAvailable : " + table.get("spaceAvailable") + ", Seating: " +  table.get("seating")));
             }else{
                 System.out.println("POSSIBLE TABLE ARRANGEMENT NOT FOUND");
-            };
+            }
         }catch (IOException e){
             e.printStackTrace();
             System.out.println("Error reading Input file. Please use input.txt in resources folder.");
