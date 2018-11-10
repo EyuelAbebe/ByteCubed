@@ -44,14 +44,25 @@ public class WeddingSeating {
                 seating.add(guest.get("name").toString().trim().toUpperCase());
                 table.replace("spaceAvailable", spaceAvailable - guestSize);
                 return true;
+            }else{
+                for (String sittingGuest: seating){
+                    Object sittngGuestInfo =  guestInfos.stream()
+                            .filter( guestInfo -> guestInfo.get("name").toString().trim().equalsIgnoreCase(sittingGuest))
+                            .findFirst();
+
+                    if (canMove((Map)sittngGuestInfo, table)){
+                       seating.add(guest.get("name").toString().trim().toUpperCase());
+                       table.replace("spaceAvailable", spaceAvailable - guestSize);
+                       return true;
+                    }
+                }
             }
         }
-
         return false;
     }
 
     /**
-     *  Takes in guest and table info and determines of guest(s) can seat.
+     *  Takes in guest and table info and determines if guest(s) can seat.
      *
      * @param guestInfo guest information.
      * @param tableSizeAvailable space available on table.
@@ -70,5 +81,48 @@ public class WeddingSeating {
             }
         }
         return true;
+    }
+
+    /**
+     *  Given a guest and a table guest sitting on, determines if we can move guest to a different table.
+     *
+     * @param guestInfo guest/party name.
+     * @param srcTable table name guest currently sitting on.
+     * @return boolean
+     */
+    public boolean canMove(Map guestInfo, Map srcTable){
+
+        for(Map destTable : tables){
+            if ( destTable.get("name") != srcTable.get("name")){
+                List<String> destTableSeating = (List) destTable.get("seating");
+                if (canSeat(guestInfo,  (int) destTable.get("spaceAvailable"), destTableSeating)){
+                    move(guestInfo, srcTable, destTable);
+                    return true;
+                };
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Moves a guest from srcTable to destinationTable. Updates tables info accordingly.
+     *
+     * @param guestInfo
+     * @param srcTable
+     * @param destinationTable
+     */
+    public void move(Map guestInfo, Map srcTable, Map destinationTable){
+
+        int guestSize = (int) guestInfo.get("size");
+        srcTable.replace("spaceAvailable", (int) srcTable.get("spaceAvailable") + guestSize);
+        destinationTable.replace("spaceAvailable", (int) destinationTable.get("spaceAvailable") - guestSize);
+
+
+        List<String> guestTableSeating = (List) destinationTable.get("seating");
+        guestTableSeating.add(guestInfo.get("name").toString().trim().toUpperCase());
+
+        List<String> srcTableSeating = (List) srcTable.get("seating");
+        srcTableSeating.remove(guestInfo.get("name").toString().trim().toUpperCase());
+
     }
 }
